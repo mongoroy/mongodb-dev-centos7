@@ -1,0 +1,85 @@
+---
+# Ansible playbook
+#
+# @author Roy Rim
+
+- hosts: all
+  gather_facts: yes
+
+  tasks:
+    - name: Add repository
+      become: yes
+      yum_repository:
+        name: epel
+        state: absent
+        description: EPEL YUM repo
+        baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+    - name: add cmake3 repository
+      become: yes
+      yum_repository:
+        name: cmake3
+        state: absent
+        description: cmake3 repository
+        baseurl: https://copr.fedoraproject.org/coprs/g/kdesig/cmake3_EPEL/repo/epel-7/heliocastro-cmake3_EPEL-epel-7.repo
+
+    - name: yum install epel-release
+      become: yes
+      yum:
+        name: epel-release
+        state: latest
+
+    - name: yum upgrade python-setuptools
+      become: yes
+      yum:
+        name: python-setuptools
+        state: latest
+
+    - name: yum installs
+      become: yes
+      yum:
+        name: git, gcc, automake, autoconf, libtool, cmake3, java-1.7.0, java-1.8.0, maven, python-pip
+        state: latest
+
+    - name: git mongodb c driver
+      git:
+        repo: https://github.com/mongodb/mongo-c-driver.git
+        dest: /home/vagrant/mongo-c-driver
+        clone: yes
+
+    - name: git mongodb cxx driver
+      git:
+        repo: https://github.com/mongodb/mongo-cxx-driver.git
+        dest: /home/vagrant/mongo-cxx-driver
+        clone: yes
+
+    - name: git mongodb java driver
+      git:
+        repo: https://github.com/mongodb/mongo-java-driver.git
+        dest: /home/vagrant/mongo-java-driver
+        clone: yes
+    
+    - name: install nvm
+      shell: >
+        curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
+        creates=/home/vagrant/.nvm/nvm.sh
+
+    - name: install nodejs using nvm
+      shell: >
+        /bin/bash -c "source ~/.nvm/nvm.sh && nvm install node"
+
+    - name: install mongodb m via npm
+      shell: >
+        npm install -g m
+
+    - name: create mongodb directory
+      file:
+        path: /home/vagrant/mongodb/bin
+        state: directory
+
+    - name: Adding M_PREFIX for mongodb m
+      lineinfile: 
+        dest: /home/vagrant/.bashrc 
+        line: 'export M_PREFIX=~/mongodb'
+        insertafter: 'EOF' 
+        state: present
+
