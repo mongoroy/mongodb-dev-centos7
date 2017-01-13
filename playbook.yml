@@ -7,21 +7,6 @@
   gather_facts: yes
 
   tasks:
-    - name: Add repository
-      become: yes
-      yum_repository:
-        name: epel
-        state: absent
-        description: EPEL YUM repo
-        baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
-    - name: add cmake3 repository
-      become: yes
-      yum_repository:
-        name: cmake3
-        state: absent
-        description: cmake3 repository
-        baseurl: https://copr.fedoraproject.org/coprs/g/kdesig/cmake3_EPEL/repo/epel-7/heliocastro-cmake3_EPEL-epel-7.repo
-
     - name: yum install epel-release
       become: yes
       yum:
@@ -56,6 +41,12 @@
       git:
         repo: https://github.com/mongodb/mongo-java-driver.git
         dest: /home/vagrant/mongo-java-driver
+        clone: yes
+    
+    - name: git simple mongodb java maven starter project
+      git:
+        repo: https://github.com/mongoroy/mongodb-maven-starter.git
+        dest: /home/vagrant/mongodb-maven-starter
         clone: yes
     
     - name: install nvm
