@@ -37,7 +37,7 @@
     - name: yum installs
       become: yes
       yum:
-        name: git, gcc, automake, autoconf, libtool, cmake3, java-1.7.0, java-1.8.0, maven, python-pip
+        name: git, gcc, automake, autoconf, libtool, cmake3, java-1.7.0, java-1.8.0, maven, python-virtualenv.noarch
         state: latest
 
     - name: git mongodb c driver
@@ -82,4 +82,26 @@
         line: 'export M_PREFIX=~/mongodb'
         insertafter: 'EOF' 
         state: present
+
+    - name: Adding M_PREFIX/bin to PATH
+      lineinfile: 
+        dest: /home/vagrant/.bashrc 
+        line: 'export PATH=$PATH:~/mongodb/bin'
+        insertafter: 'EOF' 
+        state: present
+
+    - name: Download pip
+      shell: >
+        wget https://bootstrap.pypa.io/get-pip.py
+        creates=/home/vagrant/get-pip.py
+
+    - name: Install pip
+      shell: >
+        sudo python get-pip.py
+        creates=/usr/bin/pip
+
+    - name: Install mtools
+      become: yes
+      pip:
+        name: pymongo, numpy, matplotlib, mtools
 
