@@ -7,10 +7,16 @@ Currently setup to let you compile the following MongoDB Drivers:
 - C++ Driver
 - Java Driver
 
+You can build the drivers following the instructions on each driver's website. Please see the notes below for any particular gotchas that might trip you up building the drivers.
+
 It will also come configured with these tools:
 
 - MongoDB m
 - MongoDB mtools
+
+I am also including a few simple Java projects as quick jumping off points. For now I have one lone app:
+
+- MongoDB Maven Starter
 
 ## Building Notes
 
