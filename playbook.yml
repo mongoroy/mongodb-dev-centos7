@@ -22,7 +22,7 @@
     - name: yum installs
       become: yes
       yum:
-        name: git, gcc, automake, autoconf, libtool, cmake3, java-1.7.0, java-1.8.0, maven, python-virtualenv.noarch
+        name: git, gcc, automake, autoconf, libtool, cmake3, java-1.7.0, java-1.8.0, maven, python-virtualenv.noarch, scons.noarch
         state: latest
 
     - name: git mongodb c driver
@@ -37,6 +37,12 @@
         dest: /home/vagrant/mongo-cxx-driver
         clone: yes
 
+    - name: git mongo
+      git:
+        repo: https://github.com/mongodb/mongo.git
+        dest: /home/vagrant/mongo
+        clone: yes
+    
     - name: git mongodb java driver
       git:
         repo: https://github.com/mongodb/mongo-java-driver.git
