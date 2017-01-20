@@ -31,3 +31,7 @@ Also by default after building the C Driver the driver installs into /usr/local.
 ``` bash
 PKG_CONFIG_PATH="/usr/local/lib/pkgconfig" cmake3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
 ```
+
+## MongoDB Notes
+
+I could not get m installed using npm. Instead it was installed manually using ansible. To avoid permission issues M_PREFIX is set to ~/mongodb
